@@ -1,27 +1,30 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+require("mongoose-type-email");
 
-require('mongoose-type-email');
+const departmentSchema = new Schema(
+    {
+        name: {
+            type: String,
+        },
 
-const departmentSchema= new Schema({
-  
-   department:{
-      type:String
+        approvers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Approver",
+            },
+        ],
+        createdBy: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: "Admin",
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
 
-   },
-
-   approvers:[
-      {
-      type:mongoose.Schema.Types.ObjectId,
-      ref: 'Approver' 
-      }
-   ]
-},
-{
-   timestamps: true
-});
-
-const Department = mongoose.model('Department', departmentSchema)
-module.exports = Department
+const Department = mongoose.model("Department", departmentSchema);
+module.exports = Department;

@@ -9,6 +9,15 @@ exports.getDepartment = (req, res) => {
         .catch((err) => res.status(400).json("Error:" + err));
 };
 
+exports.getAllDepartment = (req, res) => {
+    Department.find({})
+        .populate("approvers")
+        .then((departments) => {
+            res.json(departments);
+        })
+        .catch((err) => res.status(400).json("Error:" + err));
+};
+
 exports.getDepartmentById = (req, res) => {
     const { id } = req.params;
     Department.findOne({ _id: id, createdBy: req.userId })
@@ -42,6 +51,7 @@ exports.addDepartment = async (req, res) => {
     return res.status(201).json({
         status: "success",
         message: "registration successful",
+        data: newDepartment,
     });
 };
 

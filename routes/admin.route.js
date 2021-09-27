@@ -1,10 +1,16 @@
-const express = require('express');
-const adminContoller = require('../controllers/admin.controller');
-const authJwt = require('../middlewares/authJwt')
+const express = require("express");
+const adminContoller = require("../controllers/admin.controller");
+const authJwt = require("../middlewares/authJwt");
 const router = express.Router();
+const upload = require("../middlewares/upload");
 
-router.post("/add-profile/:id", adminContoller.createInstituteDetail);
+router.post("/add-profile/:id", upload, adminContoller.createInstituteDetail);
 router.route("/profile/:id").get(adminContoller.showProfileById);
+router.get(
+    "/profile",
+    [authJwt.verifyToken, authJwt.checkIfUserIsAdmin],
+    adminContoller.showProfile
+);
 router.put("/updateProfile/:id", adminContoller.updateProfile);
 
 // manage users
