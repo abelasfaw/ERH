@@ -9,6 +9,9 @@ router.get(
     authJwt.checkIfUserIsAdmin,
     departmentController.getDepartment
 );
+
+router.get("/department-list-all", departmentController.getAllDepartment);
+
 router.get(
     "/department-list/:id",
     authJwt.verifyToken,
